@@ -11,7 +11,7 @@ import json
 with open('custom.geo.json') as response:
     countries = json.load(response)
 
-# Wczytanie zbioru graczy
+# Wczytanie zbioru
 file_path='all.csv'
 df=pd.read_csv(file_path)
 
@@ -74,7 +74,7 @@ def render_content(tab):
     Input(component_id='button',component_property='n_clicks'),
     Input('interval-component', 'n_intervals')
     )
-def addNew(click,inter):
+def addNew(click):
     if click > 0:
         map_fig=mapa()
         return map_fig
