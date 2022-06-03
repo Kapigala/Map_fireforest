@@ -89,4 +89,4 @@ def addNew(click,n_intervals):
         return map_fig
     return mapa()
 
-app.run_server(debug=True)
+app.run_server()
