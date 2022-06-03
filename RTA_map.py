@@ -15,16 +15,25 @@ with open('custom.geo.json') as response:
 file_path='all.csv'
 df=pd.read_csv(file_path)
 
-
+def formula(df):
+    return (8/24*df['Temp']/df['Temp'].max()
+            -4.5/24*df['Wilgotność']/df['Wilgotność'].max()
+            +5.5/24*df['Wiatr']/df['Wiatr'].max()
+            +1.5/24*df['Zaludnienie']/df['Zaludnienie'].max()
+            + 2/24*df['Siec drogowa']/df['Siec drogowa'].max()
+            +3/24*df['Iglaste ']/df['Iglaste '].max()
+            +3/24*df['Zachmurzenie ']/df['Zachmurzenie '].max()
+            +5.5/24*df['Dni bez opadow']/df['Dni bez opadow'].max())
 
 #--Definicje--
 def mapa():
-    x=np.random.random(df.shape[0])
+    x=pd.read_csv('dane_rta(1).csv')
+    x['model']=formula(x)
     fig=px.choropleth(df,
                       geojson=countries,
                       locations=df['alpha-3'],
                       locationmode='ISO-3',
-                      color=x,
+                      color=x['model'],
                       color_continuous_scale="Bluered",
                       )
     return fig
@@ -73,8 +82,8 @@ def render_content(tab):
     Output(component_id='graph7',component_property='figure'),
     Input(component_id='button',component_property='n_clicks'),
     Input('interval-component', 'n_intervals')
-    )
-def addNew(click):
+)
+def addNew(click,n_intervals):
     if click > 0:
         map_fig=mapa()
         return map_fig
